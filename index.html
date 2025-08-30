@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ordens de Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button.danger {
+            background-color: #dc3545;
+        }
+
+        button.danger:hover {
+            background-color: #c82333;
+        }
+
+        .result {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .os-item {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+
+        .veiculo-item {
+            background-color: #f8f9fa;
+            padding: 8px;
+            margin: 3px 0;
+            border-radius: 4px;
+            border-left: 4px solid #28a745;
+        }
+
+        .historico-item {
+            background-color: #fff3cd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔧 Sistema de Ordens de Serviço</h1>
+
+    <!-- Criar Nova OS -->
+    <div class="container">
+        <h2>📋 Criar Nova OS</h2>
+        <div class="form-group">
+            <label for="placa">Placa do Veículo:</label>
+            <input type="text" id="placa" placeholder="ABC1234">
+        </div>
+        <div class="form-group">
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" rows="3" placeholder="Observações sobre a OS..."></textarea>
+        </div>
+        <button onclick="criarOS()">Criar OS</button>
+        <div id="resultadoCriarOS" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Listar OS -->
+    <div class="container">
+        <h2>📋 Listar Todas as OS</h2>
+        <button onclick="listarOS()">Listar OS</button>
+        <div id="resultadoListarOS" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Adicionar Veículo -->
+    <div class="container">
+        <h2>🚗 Adicionar Veículo a uma OS</h2>
+        <div class="form-group">
+            <label for="osId">ID da OS:</label>
+            <input type="text" id="osId" placeholder="001">
+        </div>
+        <div class="form-group">
+            <label for="veiculoPlaca">Placa:</label>
+            <input type="text" id="veiculoPlaca" placeholder="ABC1234">
+        </div>
+        <div class="form-group">
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" placeholder="Civic">
+        </div>
+        <div class="form-group">
+            <label for="ano">Ano:</label>
+            <input type="text" id="ano" placeholder="2020">
+        </div>
+        <div class="form-group">
+            <label for="veiculoObservacoes">Observações:</label>
+            <textarea id="veiculoObservacoes" rows="3" placeholder="Observações sobre o veículo..."></textarea>
+        </div>
+        <button onclick="adicionarVeiculo()">Adicionar Veículo</button>
+        <div id="resultadoAdicionarVeiculo" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Listar Veículos de uma OS -->
+    <div class="container">
+        <h2>🚗 Listar Veículos de uma OS</h2>
+        <div class="form-group">
+            <label for="osIdListar">ID da OS:</label>
+            <input type="text" id="osIdListar" placeholder="001">
+        </div>
+        <button onclick="listarVeiculos()">Listar Veículos</button>
+        <div id="resultadoListarVeiculos" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Buscar Histórico por Placa -->
+    <div class="container">
+        <h2>🔍 Buscar Histórico por Placa</h2>
+        <div class="form-group">
+            <label for="placaHistorico">Placa do Veículo:</label>
+            <input type="text" id="placaHistorico" placeholder="ABC1234">
+        </div>
+        <button onclick="buscarHistorico()">Buscar Histórico</button>
+        <div id="resultadoHistorico" class="result" style="display: none;"></div>
+    </div>
+
+    <!-- Deletar OS -->
+    <div class="container">
+        <h2>🗑️ Deletar OS</h2>
+        <div class="form-group">
+            <label for="osIdDeletar">ID da OS:</label>
+            <input type="text" id="osIdDeletar" placeholder="001">
+        </div>
+        <button class="danger" onclick="deletarOS()">Deletar OS</button>
+        <div id="resultadoDeletarOS" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3004';
+
+        async function fazerRequisicao(url, options = {}) {
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+
+                const data = await response.text();
+
+                if (response.ok) {
+                    try {
+                        return JSON.parse(data);
+                    } catch {
+                        return data;
+                    }
+                } else {
+                    throw new Error(`Erro ${response.status}: ${data}`);
+                }
+            } catch (erro) {
+                throw new Error('Erro na requisição: ' + erro.message);
+            }
+        }
+
+        function mostrarResultado(elementId, dados) {
+            const elemento = document.getElementById(elementId);
+            elemento.style.display = 'block';
+            elemento.textContent = typeof dados === 'string' ? dados : JSON.stringify(dados, null, 2);
+        }
+
+        async function criarOS() {
+            try {
+                const placa = document.getElementById('placa').value;
+                const observacoes = document.getElementById('observacoes').value;
+
+                if (!placa) {
+                    alert('Por favor, informe a placa do veículo.');
+                    return;
+                }
+
+                const dados = {
+                    placa: placa,
+                    observacoes: observacoes
+                };
+
+                const resultado = await fazerRequisicao(`${API_BASE}/os`, {
+                    method: 'POST',
+                    body: JSON.stringify(dados)
+                });
+
+                mostrarResultado('resultadoCriarOS', resultado);
+
+                // Limpar campos
+                document.getElementById('placa').value = '';
+                document.getElementById('observacoes').value = '';
+            } catch (erro) {
+                mostrarResultado('resultadoCriarOS', erro.message);
+            }
+        }
+
+        async function listarOS() {
+            try {
+                const resultado = await fazerRequisicao(`${API_BASE}/os`);
+                mostrarResultado('resultadoListarOS', resultado);
+            } catch (erro) {
+                mostrarResultado('resultadoListarOS', erro.message);
+            }
+        }
+
+        async function adicionarVeiculo() {
+            try {
+                const osId = document.getElementById('osId').value;
+                const placa = document.getElementById('veiculoPlaca').value;
+                const modelo = document.getElementById('modelo').value;
+                const ano = document.getElementById('ano').value;
+                const observacoes = document.getElementById('veiculoObservacoes').value;
+
+                if (!osId || !placa) {
+                    alert('Por favor, informe o ID da OS e a placa do veículo.');
+                    return;
+                }
+
+                const dados = {
+                    placa: placa,
+                    modelo: modelo,
+                    ano: ano,
+                    observacoes: observacoes
+                };
+
+                const resultado = await fazerRequisicao(`${API_BASE}/os/${osId}/veiculos`, {
+                    method: 'POST',
+                    body: JSON.stringify(dados)
+                });
+
+                mostrarResultado('resultadoAdicionarVeiculo', resultado);
+
+                // Limpar campos
+                document.getElementById('osId').value = '';
+                document.getElementById('veiculoPlaca').value = '';
+                document.getElementById('modelo').value = '';
+                document.getElementById('ano').value = '';
+                document.getElementById('veiculoObservacoes').value = '';
+            } catch (erro) {
+                mostrarResultado('resultadoAdicionarVeiculo', erro.message);
+            }
+        }
+
+        async function listarVeiculos() {
+            try {
+                const osId = document.getElementById('osIdListar').value;
+
+                if (!osId) {
+                    alert('Por favor, informe o ID da OS.');
+                    return;
+                }
+
+                const resultado = await fazerRequisicao(`${API_BASE}/os/${osId}/veiculos`);
+                mostrarResultado('resultadoListarVeiculos', resultado);
+            } catch (erro) {
+                mostrarResultado('resultadoListarVeiculos', erro.message);
+            }
+        }
+
+        async function buscarHistorico() {
+            try {
+                const placa = document.getElementById('placaHistorico').value;
+
+                if (!placa) {
+                    alert('Por favor, informe a placa do veículo.');
+                    return;
+                }
+
+                const resultado = await fazerRequisicao(`${API_BASE}/veiculos/${placa}/historico`);
+                mostrarResultado('resultadoHistorico', resultado);
+            } catch (erro) {
+                mostrarResultado('resultadoHistorico', erro.message);
+            }
+        }
+
+        async function deletarOS() {
+            try {
+                const osId = document.getElementById('osIdDeletar').value;
+
+                if (!osId) {
+                    alert('Por favor, informe o ID da OS.');
+                    return;
+                }
+
+                if (!confirm(`Tem certeza que deseja deletar a OS ${osId}?`)) {
+                    return;
+                }
+
+                const resultado = await fazerRequisicao(`${API_BASE}/os/${osId}`, {
+                    method: 'DELETE'
+                });
+
+                mostrarResultado('resultadoDeletarOS', resultado);
+                document.getElementById('osIdDeletar').value = '';
+            } catch (erro) {
+                mostrarResultado('resultadoDeletarOS', erro.message);
+            }
+        }
+    </script>
+</body>
+
+</html>
