@@ -2,6 +2,49 @@
 
 Sistema para gerenciamento de ordens de serviço para veículos, com arquitetura organizada em camadas.
 
+## 🚀 **COMO USAR - GUIA RÁPIDO**
+
+### **1. Iniciar o Sistema**
+```bash
+# Instalar dependências (primeira vez)
+npm install
+
+# Executar o servidor
+npm start
+```
+**Servidor rodará em:** `http://localhost:3004`
+
+### **2. Acessar a Interface**
+- **Abra o arquivo `index.html`** no navegador
+- **OU acesse:** `http://localhost:3004`
+
+### **3. Funcionalidades Principais**
+
+#### 📋 **Criar Nova OS**
+1. Digite a **placa do veículo** (ex: ABC1234)
+2. Adicione **observações** (opcional)
+3. Clique em **"Criar OS"**
+4. Sistema criará automaticamente a OS 001
+
+#### 🚗 **Adicionar Veículo a uma OS**
+1. Digite o **ID da OS** (ex: 001)
+2. Preencha **placa, modelo, ano, observações**
+3. Clique em **"Adicionar Veículo"**
+
+#### 📊 **Consultas Disponíveis**
+- **Listar todas as OS** - Ver todas as ordens criadas
+- **Listar veículos de uma OS** - Ver veículos de OS específica
+- **Buscar histórico por placa** - Histórico completo de um veículo
+- **Deletar OS** - Remover ordem de serviço
+
+### **4. Exemplo de Uso Completo**
+1. **Criar OS 001** para veículo ABC1234
+2. **Adicionar veículo** com modelo "Civic 2020"
+3. **Criar OS 002** para veículo XYZ5678
+4. **Buscar histórico** da placa ABC1234 (mostrará OS 001)
+
+---
+
 ## 🏗️ Estrutura do Projeto
 
 ```
