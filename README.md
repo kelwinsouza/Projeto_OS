@@ -1,119 +1,133 @@
 # Sistema de Ordens de Serviço (OS)
 
-Sistema para gerenciamento de ordens de serviço de oficina mecânica, desenvolvido com Node.js usando apenas módulos internos.
+Sistema para gerenciamento de ordens de serviço para veículos, com arquitetura organizada em camadas.
 
-## Funcionalidades
-
-- ✅ Criar novas OS
-- ✅ Adicionar veículos às OS
-- ✅ Listar todas as OS
-- ✅ Listar veículos de uma OS específica
-- ✅ Buscar histórico completo de um veículo por placa
-- ✅ Deletar OS
-- ✅ Validação de dados duplicados
-- ✅ Persistência em arquivos JSON
-
-## Estrutura de Pastas
+## 🏗️ Estrutura do Projeto
 
 ```
-OS/
-├── 001/
-│   ├── info.json (dados da OS)
-│   └── veiculos/
-│       └── ABC1234/
-│           ├── info.json (dados do veículo)
-│           ├── pecas-trocadas.json
-│           └── pecas-pendentes.json
-├── 002/
-│   └── ...
-└── 003/
-    └── ...
+Projeto_OS/
+├── controllers/          # Controladores da aplicação
+│   ├── osController.js   # Controlador para OS
+│   └── veiculoController.js # Controlador para veículos
+├── middlewares/          # Middlewares
+│   └── cors.js          # Middleware de CORS
+├── routes/               # Definição de rotas
+│   └── index.js         # Configuração de todas as rotas
+├── services/             # Lógica de negócio
+│   ├── osService.js     # Serviços para OS
+│   └── veiculoService.js # Serviços para veículos
+├── utils/                # Utilitárias
+│   ├── fileUtils.js     # Utilitárias para arquivos
+│   └── requestUtils.js  # Utilitárias para requisições
+├── public/               # Arquivos estáticos
+│   ├── css/             # Estilos CSS
+│   │   └── styles.css   # Estilos principais
+│   └── js/              # JavaScript do frontend
+│       └── app.js       # Lógica da interface
+├── server/               # Servidor principal
+│   └── index.js         # Arquivo principal do servidor
+├── OS/                   # Dados das ordens de serviço
+├── index.html            # Interface principal
+├── package.json          # Configurações do projeto
+└── README.md             # Este arquivo
 ```
 
-## Como Usar
+## 🚀 Como Executar
 
-### 1. Iniciar o Servidor
+### Pré-requisitos
+- Node.js (versão 14 ou superior)
+- NPM ou Yarn
 
+### Instalação
+1. Clone o repositório
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+### Execução
 ```bash
-cd NODE_COD_01/PROJETO
-node server.js
+# Modo produção
+npm start
+
+# Modo desenvolvimento (com auto-reload)
+npm run dev
 ```
 
 O servidor estará rodando em `http://localhost:3004`
 
-### 2. Acessar a Interface
+## 📋 Funcionalidades
 
-Abra o arquivo `index.html` no navegador ou acesse `http://localhost:3004`
+### Ordens de Serviço (OS)
+- ✅ Criar nova OS
+- ✅ Listar todas as OS
+- ✅ Visualizar OS específica
+- ✅ Deletar OS
 
-### 3. Endpoints da API
+### Veículos
+- ✅ Adicionar veículo a uma OS
+- ✅ Listar veículos de uma OS
+- ✅ Visualizar veículo específico
+- ✅ Remover veículo de uma OS
+- ✅ Buscar histórico por placa
 
-#### Criar Nova OS
+## 🔌 API Endpoints
+
+### OS
+- `GET /os` - Listar todas as OS
+- `POST /os` - Criar nova OS
+- `GET /os/:id` - Ver OS específica
+- `DELETE /os/:id` - Deletar OS
+
+### Veículos
+- `GET /os/:id/veiculos` - Listar veículos de uma OS
+- `POST /os/:id/veiculos` - Adicionar veículo a uma OS
+- `GET /os/:id/veiculos/:placa` - Ver veículo específico
+- `DELETE /os/:id/veiculos/:placa` - Remover veículo de uma OS
+- `GET /veiculos/:placa/historico` - Buscar histórico por placa
+
+## 🎨 Interface
+
+A interface é responsiva e organizada em seções:
+- Formulário para criar OS
+- Listagem de OS
+- Gerenciamento de veículos
+- Busca de histórico
+- Exclusão de OS
+
+## 🔧 Tecnologias Utilizadas
+
+- **Backend**: Node.js (HTTP nativo)
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Arquitetura**: MVC com separação de responsabilidades
+- **Armazenamento**: Sistema de arquivos (JSON)
+
+## 📁 Armazenamento de Dados
+
+Os dados são armazenados em arquivos JSON na estrutura:
 ```
-POST /os
-{
-  "placa": "ABC1234",
-  "observacoes": "Troca de óleo e filtros"
-}
+OS/
+├── 001/
+│   ├── info.json
+│   └── veiculos/
+│       └── ABC1234/
+│           ├── info.json
+│           ├── pecas-trocadas.json
+│           └── pecas-pendentes.json
+├── 002/
+│   └── ...
+└── ...
 ```
 
-#### Listar Todas as OS
-```
-GET /os
-```
+## 🚧 Melhorias Futuras
 
-#### Adicionar Veículo a uma OS
-```
-POST /os/001/veiculos
-{
-  "placa": "ABC1234",
-  "modelo": "Civic",
-  "ano": "2020",
-  "observacoes": "Veículo em bom estado"
-}
-```
+- [ ] Autenticação e autorização
+- [ ] Banco de dados (PostgreSQL/MongoDB)
+- [ ] Upload de imagens
+- [ ] Relatórios e estatísticas
+- [ ] Notificações em tempo real
+- [ ] API para aplicativos móveis
 
-#### Listar Veículos de uma OS
-```
-GET /os/001/veiculos
-```
+## 📝 Licença
 
-#### Buscar Histórico por Placa
-```
-GET /veiculos/ABC1234/historico
-```
-
-#### Deletar OS
-```
-DELETE /os/001
-```
-
-## Exemplo de Uso
-
-1. **Criar OS 001** para o veículo ABC1234
-2. **Criar OS 002** para o veículo XYZ5678
-3. **Criar OS 003** para o mesmo veículo ABC1234 (nova visita)
-4. **Buscar histórico** da placa ABC1234 - retornará OS 001 e OS 003
-
-## Características
-
-- **Sem dependências externas**: Usa apenas módulos internos do Node.js
-- **Persistência local**: Todos os dados ficam salvos em arquivos JSON
-- **Validação**: Verifica se OS já existe antes de criar
-- **Histórico completo**: Busca todas as OS de um veículo específico
-- **Interface web**: Interface simples para testar todas as funcionalidades
-
-## Tecnologias Utilizadas
-
-- **Node.js** - Runtime JavaScript
-- **http** - Servidor HTTP nativo
-- **fs.promises** - Manipulação de arquivos
-- **path** - Manipulação de caminhos
-- **url** - Parsing de URLs
-
-## Baseado nos Códigos
-
-Este projeto foi desenvolvido baseado nos códigos existentes:
-- `FASE_1/index.js` - Sistema de cadastro de usuários
-- `FASE_2/GET.JS` - Servidor HTTP com API REST
-
-Mantendo a mesma estrutura, padrões e módulos utilizados nos códigos originais. 
+MIT License - veja o arquivo LICENSE para detalhes. 

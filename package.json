@@ -1,0 +1,25 @@
+{
+    "name": "sistema-os",
+    "version": "1.0.0",
+    "description": "Sistema de Ordens de Serviço para veículos",
+    "main": "server/index.js",
+    "scripts": {
+        "start": "node server/index.js",
+        "dev": "nodemon server/index.js"
+    },
+    "keywords": [
+        "os",
+        "ordem-servico",
+        "veiculos",
+        "api"
+    ],
+    "author": "Sistema OS",
+    "license": "MIT",
+    "dependencies": {
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}
